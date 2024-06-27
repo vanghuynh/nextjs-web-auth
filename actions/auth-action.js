@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation";
 import { hashUserPassword, verifyPassword } from "../lib/hash";
 import { createUser, getUserByEmail } from "../lib/user";
-import { createAuthSession } from "../lib/auth";
+import { createAuthSession, destroySession } from "../lib/auth";
 
 export async function sigup(prevState, formData) {
   const email = formData.get("email");
@@ -69,4 +69,9 @@ export async function auth(mode, prevState, formData) {
     return login(prevState, formData);
   }
   return sigup(prevState, formData);
+}
+
+export async function logout() {
+  await destroySession();
+  redirect("/");
 }
